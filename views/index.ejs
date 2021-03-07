@@ -1,11 +1,70 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
+
+<head>
+  <title>
+    <%= title %>
+  </title>
+  <style>
+    table,
+    th,
+    td {
+      border: 1px solid black;
+    }
+  </style>
+</head>
+
+<form name="coviddata" method="GET" action="/filtereddata">
+
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+    <h1>COVID 19 STATISTICS- INDIA</h1>
+    <p>Welcome to POC Site to track the State-wise COVID 19 Cases in India</p>
+    <p>
+      Click the Button For Options to Filter Data (Countrywise & within a date range)
+      <input type="submit" name="Filter_data" value="Click Here" onclick="window.location.href" : "/filtereddata">
+    </p>
+    
+    <table>
+      <thead>
+        <tr>
+          <th>SL No</th>
+          <th>State</th>
+          <th>Confirmed Count</th>
+          <th>Active Count</th>
+          <th>Recovered Count</th>
+          <th>Death Count</th>
+        </tr>
+      </thead>
+      <%
+      for (i=0; i < data.length; i++) { %>
+        <tbody>
+          <tr>
+            <td>
+              <%=i+1%>
+            </td>
+            <td>
+              <%=data[i].State%>
+            </td>
+            <td align="right">
+              <%=data[i].Confirmed%>
+            </td>
+            <td align="right">
+              <%=data[i].Active%>
+            </td>
+            <td align="right">
+              <%=data[i].Recovered%>
+            </td>
+            <td align="right">
+              <%=data[i].Death%>
+            </td>
+          </tr>
+
+        </tbody>
+
+
+        <% } %>
+    </table>
   </body>
+</form>
+
 </html>
