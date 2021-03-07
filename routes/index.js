@@ -1,31 +1,34 @@
 var express = require('express');
 var router = express.Router();
-var request = require("request")
-
+// var request = require("request");
+var axios = require("axios");
+var data = [];
+var response_data = "";
 /* GET home page. */
 router.get('/', function (req, res, next) {
 
   // API endpoint to which the http request will be made 
   const url = "https://api.covid19india.org/data.json";
 
-  // The data have lot of extra properties ; We are filtering it 
-  var data = [];
-  // HTTP request 
-  request(url, (error, response, body) => {
+  async function getResponse(url) {
+    response_data = await getURLResponse(url);
+    res.render('index', { title: 'COVID19 POC Project', data: response_data });
+  }
+  getResponse(url);
 
-    // Error - Any possible error when request is made. 
+});
+async function getURLResponse(url) {
+  try {
+    const response = await axios.get(url);
+    // console.log(response.data);
+    console.log(response.status);
+    console.log(response.statusText);
+    // console.log(response.headers);
+    // console.log(response.config);
 
-    // Response - HTTP response status codes indicate whether a specific HTTP request has been successfully completed 
-
-    // body - response data 
-
-    // 200 - successful response 
-    if (!error && response.statusCode == 200) {
-
-      // The response data will be in string 
-      // Convert it to Object. 
-      body = JSON.parse(body);
-      console.log("Response Body is -"+ body);
+    if (response.status == 200) {
+      body = JSON.parse(JSON.stringify(response.data));
+      console.log("Response Body is -" + body);
 
       for (let i = 0; i < body.statewise.length; i++) {
         data.push({
@@ -41,15 +44,11 @@ router.get('/', function (req, res, next) {
         });
       }
       console.log("Filtered Data count is -" + data.length);
-      // for (i=0; i < data.length; i++) {
-      //   console.log(data[i]);
-      //   console.log(data[i].State);
-      // }    
     }
-  })
-
-  res.render('index', { title: 'COVID19 POC Project' , data: data });  
-  
-});
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 module.exports = router;
