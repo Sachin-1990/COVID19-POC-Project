@@ -14,41 +14,42 @@ router.get('/', function (req, res, next) {
 });
 router.post('/filtereddata', function (req, res, body) {
 
-  console.log("Inside post block of filtereddata");
-  console.log("body-" + body);
+  // console.log("Inside post block of filtereddata");
+  // console.log("body-" + body);
 
   var parentObject = new Object();
   parentObject.country = req.body.country;
   parentObject.from_date = req.body.from_date;
   parentObject.to_date = req.body.to_date;
 
-  console.log("Country Selected is -" + parentObject.country);
-  console.log("From Date  Selected is -" + parentObject.from_date);
-  console.log("To Date Selected is -" + parentObject.to_date);
-  console.log("1st 3 chars of country-"+parentObject.country.substr(0, 3));
+  // console.log("Country Selected is -" + parentObject.country);
+  // console.log("From Date  Selected is -" + parentObject.from_date);
+  // console.log("To Date Selected is -" + parentObject.to_date);
+  // console.log("1st 3 chars of country-"+parentObject.country.substr(0, 3));
+  
   const url = 'https://covidapi.info/api/v1/country/'+ parentObject.country.substr(0, 3) + '/timeseries/' + parentObject.from_date + '/' + parentObject.to_date
 
   getURLResponse_andredirect(res, url, 'filtereddata', parentObject.country , parentObject.from_date, parentObject.to_date);
 
 });
 async function getURLResponse_andredirect(res, url, route_page, country, from_date, to_date) {
-  console.log("Passed URL is -" + url);
+  // console.log("Passed URL is -" + url);
   try {
     var data = [];
     var country_data = [];
     const response = await axios.get(url);
     // console.log(response.data);
-    console.log(response.status);
-    console.log(response.statusText);
+    // console.log(response.status);
+    // console.log(response.statusText);
     // console.log(response.headers);
     // console.log(response.config);
 
     if (response.status == 200) {
       body = JSON.parse(JSON.stringify(response.data));
-      console.log("Response Body is -" + body);
+      // console.log("Response Body is -" + body);
 
       if (route_page == 'index') {
-        console.log("Inside if route_page is index !!");
+        // console.log("Inside if route_page is index !!");
         for (let i = 0; i < body.statewise.length; i++) {
           data.push({
 
@@ -60,19 +61,19 @@ async function getURLResponse_andredirect(res, url, route_page, country, from_da
 
           });
         }
-        console.log("Filtered Data count is -" + data.length);
+        // console.log("Filtered Data count is -" + data.length);
 
         const country_url = "https://covid19.mathdro.id/api/countries"
 
         country_data = await getCountryList(country_url);
-        console.log("Count of Countries is -" + country_data.length);
+        // console.log("Count of Countries is -" + country_data.length);
 
         res.render(route_page, { title: 'COVID19 POC Project', data: data, country: country_data });
       }
       else if (route_page == 'filtereddata') {
-        console.log("Inside else if route_page is filtereddata !!");
+        // console.log("Inside else if route_page is filtereddata !!");
         for (let i = 0; i < body.result.length; i++) {
-          console.log("response body is- " + body[i]);
+          // console.log("response body is- " + body[i]);
           data.push({
 
             "Date": body.result[i].date,
@@ -82,7 +83,7 @@ async function getURLResponse_andredirect(res, url, route_page, country, from_da
 
           });
         }
-        console.log("Filtered Data count is -" + data.length);
+        // console.log("Filtered Data count is -" + data.length);
         res.render(route_page, { title: 'COVID19 POC Project', data: data ,country: country, from_date: from_date, to_date: to_date});
       }
       else {
@@ -97,19 +98,19 @@ async function getURLResponse_andredirect(res, url, route_page, country, from_da
   }
 }
 async function getCountryList(url) {
-  console.log("Passed URL is -" + url);
+  // console.log("Passed URL is -" + url);
   try {
     var data = [];
     const response = await axios.get(url);
     // console.log(response.data);
-    console.log(response.status);
-    console.log(response.statusText);
+    // console.log(response.status);
+    // console.log(response.statusText);
     // console.log(response.headers);
     // console.log(response.config);
 
     if (response.status == 200) {
       body = JSON.parse(JSON.stringify(response.data));
-      console.log("Response Body is -" + body);
+      // console.log("Response Body is -" + body);
       for (let i = 0; i < body.countries.length; i++) {
         data.push({
 
@@ -119,7 +120,7 @@ async function getCountryList(url) {
 
         });
       }
-      console.log("Filtered Country Data count is -" + data.length);
+      // console.log("Filtered Country Data count is -" + data.length);
       // for(i=0; i<data.length; i++){
       //   console.log("Country Code - Name is :"+ data[i].Country_Code + '-' + data[i].Country_Name);
       // }

@@ -36,8 +36,7 @@
                 <%
                   for(i=0; i< country.length; i++)
                   {
-                    temp_country=country[i].Country_Code + '(' + country[i].Country_Name + ')';
-                    console.log("temp_country is -"+temp_country);
+                    temp_country=country[i].Country_Code + '(' + country[i].Country_Name + ')';                    
                 %>
                 <option value="<%= temp_country %>" ><%=country[i].Country_Name %></option>
                 <%
