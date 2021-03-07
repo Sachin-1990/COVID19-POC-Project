@@ -10,14 +10,11 @@ router.get('/', function (req, res, next) {
   // API endpoint to which the http request will be made 
   const url = "https://api.covid19india.org/data.json";
 
-  async function getResponse(url) {
-    response_data = await getURLResponse(url);
-    res.render('index', { title: 'COVID19 POC Project', data: response_data });
-  }
-  getResponse(url);
+  
+  getURLResponse_andredirect(res,url,'index');
 
 });
-async function getURLResponse(url) {
+async function getURLResponse_andredirect(res,url,route_page) {
   try {
     const response = await axios.get(url);
     // console.log(response.data);
@@ -45,7 +42,7 @@ async function getURLResponse(url) {
       }
       console.log("Filtered Data count is -" + data.length);
     }
-    return data;
+    res.render(route_page, { title: 'COVID19 POC Project', data: data });
   } catch (error) {
     console.error(error);
   }
