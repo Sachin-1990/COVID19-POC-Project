@@ -25,13 +25,13 @@ router.post('/filtereddata', function (req, res, body) {
   console.log("Country Selected is -" + parentObject.country);
   console.log("From Date  Selected is -" + parentObject.from_date);
   console.log("To Date Selected is -" + parentObject.to_date);
+  console.log("1st 3 chars of country-"+parentObject.country.substr(0, 3));
+  const url = 'https://covidapi.info/api/v1/country/'+ parentObject.country.substr(0, 3) + '/timeseries/' + parentObject.from_date + '/' + parentObject.to_date
 
-  const url = 'https://covidapi.info/api/v1/country/'+ parentObject.country + '/timeseries/' + parentObject.from_date + '/' + parentObject.to_date
-
-  getURLResponse_andredirect(res, url, 'filtereddata');
+  getURLResponse_andredirect(res, url, 'filtereddata', parentObject.country , parentObject.from_date, parentObject.to_date);
 
 });
-async function getURLResponse_andredirect(res, url, route_page) {
+async function getURLResponse_andredirect(res, url, route_page, country, from_date, to_date) {
   console.log("Passed URL is -" + url);
   try {
     var data = [];
@@ -83,7 +83,7 @@ async function getURLResponse_andredirect(res, url, route_page) {
           });
         }
         console.log("Filtered Data count is -" + data.length);
-        res.render(route_page, { title: 'COVID19 POC Project', data: data });
+        res.render(route_page, { title: 'COVID19 POC Project', data: data ,country: country, from_date: from_date, to_date: to_date});
       }
       else {
         console.log("Wrong Choice !!");

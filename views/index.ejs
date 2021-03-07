@@ -31,23 +31,25 @@
         <tbody>
           <tr>
             <td>
-              <select name="country" id="country">
+              <select name="country" id="country" required>
                 <option value="" selected disabled>Select Country</option>
                 <%
                   for(i=0; i< country.length; i++)
                   {
+                    temp_country=country[i].Country_Code + '(' + country[i].Country_Name + ')';
+                    console.log("temp_country is -"+temp_country);
                 %>
-                <option value="<%=country[i].Country_Code %>" ><%=country[i].Country_Name %></option>
+                <option value="<%= temp_country %>" ><%=country[i].Country_Name %></option>
                 <%
                   }
                 %>
               </select>
             </td>
             <td>
-              <input type="date" name="from_date">
+              <input type="date" name="from_date" required>
             </td>
             <td>
-              <input type="date" name="to_date">
+              <input type="date" name="to_date" required>
             </td>
 
           </tr>
