@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    <%= title %>
+  </title>
+  <style>
+    table,
+    th,
+    td {
+      border: 1px solid black;
+    }
+  </style>
+</head>
+
+<form name="coviddata">
+
+  <body>
+    <h1>COVID 19 STATISTICS</h1>
+    <a href="/"> Back to Home</a>
+    <hr>
+    <div>
+      <label align="center" style="font-size: large; color:red;">Countrywise Trend for selected Date Range</label>
+
+
+    </div>
+    <hr>
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <th>SL No</th>
+            <th>Date</th>
+            <th>Confirmed Count</th>
+            <th>Recovered Count</th>
+            <th>Death Count</th>
+          </tr>
+        </thead>
+        <% for (i=0; i < data.length; i++) { %>
+          <tbody>
+            <tr>
+              <td>
+                <%=i+1%>
+              </td>
+              <td align="right">
+                <%=data[i].Date%>
+              </td>
+              <td align="right">
+                <%=data[i].Confirmed%>
+              </td>
+              <td align="right">
+                <%=data[i].Recovered%>
+              </td>
+              <td align="right">
+                <%=data[i].Death%>
+              </td>
+            </tr>
+
+          </tbody>
+
+
+          <% } %>
+      </table>
+    </div>
+
+  </body>
+</form>
+
+</html>

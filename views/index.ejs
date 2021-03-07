@@ -14,56 +14,93 @@
   </style>
 </head>
 
-<form name="coviddata" method="GET" action="/filtereddata">
+<form name="coviddata" method="POST" action="/filtereddata">
 
   <body>
-    <h1>COVID 19 STATISTICS- INDIA</h1>
-    <p>Welcome to POC Site to track the State-wise COVID 19 Cases in India</p>
-    <!-- <p>
-      Click the Button For Options to Filter Data (Countrywise & within a date range)
-      <input type="submit" name="Filter_data" value="Click Here" onclick="window.location.href" : "/filtereddata">
-    </p> -->
-    
-    <table>
-      <thead>
-        <tr>
-          <th>SL No</th>
-          <th>State</th>
-          <th>Confirmed Count</th>
-          <th>Active Count</th>
-          <th>Recovered Count</th>
-          <th>Death Count</th>
-        </tr>
-      </thead>
-      <%
-      for (i=0; i < data.length; i++) { %>
+    <h1>COVID 19 STATISTICS</h1>
+    <hr>
+    <div>
+      <label align="center" style="font-size: large; color:red;">Countrywise Trend for selected Date Range</label>
+
+      <table>
+        <thead>
+          <th>Select Country</th>
+          <th>Select From Date</th>
+          <th>Select To Date</th>
+        </thead>
         <tbody>
           <tr>
             <td>
-              <%=i+1%>
+              <select name="country" id="country">
+                <option value="" selected disabled>Select Country</option>
+                <%
+                  for(i=0; i< country.length; i++)
+                  {
+                %>
+                <option value="<%=country[i].Country_Code %>" ><%=country[i].Country_Name %></option>
+                <%
+                  }
+                %>
+              </select>
             </td>
             <td>
-              <%=data[i].State%>
+              <input type="date" name="from_date">
             </td>
-            <td align="right">
-              <%=data[i].Confirmed%>
+            <td>
+              <input type="date" name="to_date">
             </td>
-            <td align="right">
-              <%=data[i].Active%>
-            </td>
-            <td align="right">
-              <%=data[i].Recovered%>
-            </td>
-            <td align="right">
-              <%=data[i].Death%>
-            </td>
+
           </tr>
-
         </tbody>
+      </table>
+      <br>
+      <input type="submit" value="Fetch Data">
+
+    </div>
+    <hr>
+    <div>
+      <label align="center" style="font-size: large; color:red;">Statewise COVID19 Statistics for India</label>
+      <table>
+        <thead>
+          <tr>
+            <th>SL No</th>
+            <th>State</th>
+            <th>Confirmed Count</th>
+            <th>Active Count</th>
+            <th>Recovered Count</th>
+            <th>Death Count</th>
+          </tr>
+        </thead>
+        <% for (i=0; i < data.length; i++) { %>
+          <tbody>
+            <tr>
+              <td>
+                <%=i+1%>
+              </td>
+              <td>
+                <%=data[i].State%>
+              </td>
+              <td align="right">
+                <%=data[i].Confirmed%>
+              </td>
+              <td align="right">
+                <%=data[i].Active%>
+              </td>
+              <td align="right">
+                <%=data[i].Recovered%>
+              </td>
+              <td align="right">
+                <%=data[i].Death%>
+              </td>
+            </tr>
+
+          </tbody>
 
 
-        <% } %>
-    </table>
+          <% } %>
+      </table>
+    </div>
+
   </body>
 </form>
 
