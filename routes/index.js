@@ -3,20 +3,20 @@ var router = express.Router();
 // var request = require("request");
 var axios = require("axios");
 var data = [];
-var response_data = "";
+
 /* GET home page. */
 router.get('/', function (req, res, next) {
 
   // API endpoint to which the http request will be made 
-  const url = "https://api.covid19india.org/data.json";
-
-  
+  const url = "https://api.covid19india.org/data.json";  
   getURLResponse_andredirect(res,url,'index');
 
 });
-async function getURLResponse_andredirect(res,url,route_page) {
+async function getURLResponse_andredirect(res,url,route_page) {  
   try {
-    const response = await axios.get(url);
+    data=[];
+    var response="";
+    response = await axios.get(url);
     // console.log(response.data);
     console.log(response.status);
     console.log(response.statusText);
